@@ -15,15 +15,16 @@ public class Cat extends Player {
         isHuman = true;
     }
 
-    public Cell makeMove() {
+    public void makeMove() {
         Cell cell;
         if (isHuman==false) {
             cell = (Cell) super.readFromServer();
         } else {
             cell = moveByAI();
+            super.writeToServer(cell);
         }
 
-        return cell;
+        grid.moveTo(cell.getX(), cell.getY());
     }
 
     public Cell moveByAI() {
