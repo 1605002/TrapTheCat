@@ -9,6 +9,7 @@ import javafx.scene.shape.Circle;
 import java.util.Scanner;
 
 public class Grid {
+
     static final Paint BLOCKED = Color.DARKGREEN;
     static final Paint OPEN = Color.LIGHTGREEN;
     static final Paint BILAIASE = Color.RED;
@@ -19,8 +20,11 @@ public class Grid {
     private Group root;
     private Turn turn;
 
-    public Grid(Scene scene, Group root) {
+    private int player;
 
+    public Grid(Scene scene, Group root, int player) {
+
+        this.player = player;
         this.scene = scene;
         this.root = root;
 
@@ -29,13 +33,13 @@ public class Grid {
         for(int i = 0; i < 11; i++) {
             for(int j = 0; j < 11; j++) {
                 Circle circle = new Circle();
-                brittos[i][j] = new Britto(this.scene, circle, i, j, false, turn);
+                brittos[i][j] = new Britto(this.scene, circle, i, j, false, turn, player, catPosition);
                 this.root.getChildren().add(brittos[i][j].getCircle());
             }
         }
 
-        catPosition = new Cell(3, 6);
-
+        catPosition = new Cell(5, 5);
+        moveTo(5, 5);
     }
 
     public void block(int x, int y) {
