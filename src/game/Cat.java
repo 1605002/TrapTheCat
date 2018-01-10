@@ -2,6 +2,8 @@ package game;
 
 import util.NetworkUtil;
 
+import static game.Britto.getClickedCell;
+
 public class Cat extends Player {
     private boolean isHuman;
 
@@ -20,7 +22,13 @@ public class Cat extends Player {
         if (isHuman==false) {
             cell = (Cell) super.readFromServer();
         } else {
-            cell = moveByAI();
+            while (true) {
+                cell = Britto.getClickedCell();
+                if (cell != null) {
+                    Britto.setClickedCell(null);
+                    break;
+                }
+            }
             super.writeToServer(cell);
         }
 
