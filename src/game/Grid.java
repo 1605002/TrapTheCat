@@ -29,7 +29,7 @@ public class Grid {
         for(int i = 0; i < 11; i++) {
             for(int j = 0; j < 11; j++) {
                 Circle circle = new Circle();
-                brittos[i][j] = new Britto(this.scene, circle, i, j, false);
+                brittos[i][j] = new Britto(this.scene, circle, i, j, false, turn);
                 this.root.getChildren().add(brittos[i][j].getCircle());
             }
         }
@@ -48,7 +48,9 @@ public class Grid {
         int oldX = catPosition.getX();
         int oldY = catPosition.getY();
         brittos[oldX][oldY].getCircle().setFill(OPEN);
+        brittos[oldX][oldY].setStatus(false);
         catPosition = new Cell(x, y);
+        brittos[x][y].setStatus(true);
         brittos[x][y].getCircle().setFill(BILAIASE);
     }
 
