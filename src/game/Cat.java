@@ -2,31 +2,31 @@ package game;
 
 import util.NetworkUtil;
 
-public class Cat implements Player {
-    Grid grid;
-    NetworkUtil server;
-    boolean isHuman;
+public class Cat extends Player {
+    private boolean isHuman;
 
     public Cat(Grid grid, NetworkUtil server) {
-        this.grid = grid;
-        this.server = server;
+        super(grid, server);
         isHuman = false;
     }
 
     public Cat(Grid grid) {
-        this.grid = grid;
+        super(grid);
         isHuman = true;
     }
 
     public Cell makeMove() {
         Cell cell;
         if (isHuman) {
-            cell = (Cell) server.read();
+            cell = (Cell) super.readFromServer();
         } else {
             cell = moveByAI();
         }
-    }
-    public Cell moveByAI() {
 
+        return cell;
+    }
+
+    public Cell moveByAI() {
+        return null;
     }
 }
