@@ -3,7 +3,7 @@ package game;
 import util.NetworkUtil;
 
 public abstract class Player {
-    private Grid grid;
+    protected Grid grid;
     private NetworkUtil server;
 
     public Player(Grid grid, NetworkUtil server) {
@@ -15,9 +15,10 @@ public abstract class Player {
         this.grid = grid;
     }
 
-    abstract public Cell makeMove();
+    abstract public void makeMove();
 
     public Cell readFromServer() {
         return (Cell) server.read();
     }
+    public void writeToServer(Cell cell) { server.write(cell);}
 }
