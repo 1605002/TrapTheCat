@@ -17,7 +17,7 @@ public class Cat extends Player {
 
     public Cell makeMove() {
         Cell cell;
-        if (isHuman) {
+        if (isHuman==false) {
             cell = (Cell) super.readFromServer();
         } else {
             cell = moveByAI();
