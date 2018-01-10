@@ -2,31 +2,18 @@ package game;
 
 import util.NetworkUtil;
 
-public class Trapper implements Player {
-    Grid grid;
-    NetworkUtil server;
-    boolean isHuman;
+public class Trapper extends Player {
+    private boolean isHuman = false;
 
     public Trapper(Grid grid, NetworkUtil server) {
-        this.grid = grid;
-        this.server = server;
-        isHuman = false;
+        super(grid, server);
     }
 
     public Trapper(Grid grid) {
-        this.grid = grid;
-        isHuman = true;
+        super(grid);
     }
 
     public Cell makeMove() {
-        Cell cell;
-        if (isHuman) {
-            cell = (Cell) server.read();
-        } else {
-            cell = moveByAI();
-        }
-    }
-    public Cell moveByAI() {
-
+        return super.readFromServer();
     }
 }
