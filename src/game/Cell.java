@@ -1,6 +1,8 @@
 package game;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable {
     private int x, y;
 
     public Cell(int x, int y) {
