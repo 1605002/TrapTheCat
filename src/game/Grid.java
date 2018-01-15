@@ -22,12 +22,12 @@ public class Grid {
 
     private int player;
 
-    public Grid(Scene scene, Group root, int player) {
+    public Grid(Scene scene, Group root, Turn turn, int player) {
 
+        this.turn = turn;
         this.player = player;
         this.scene = scene;
         this.root = root;
-        turn = new Turn();
 
         brittos = new Britto[11][11];
 
