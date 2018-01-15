@@ -32,12 +32,12 @@ public class Main extends Application {
         Cat cat;
 
         if (option==0) {
-            trapper = new Trapper(grid);
-            cat = new Cat(grid, nc);
+            trapper = new Trapper(grid, nc, true);
+            cat = new Cat(grid, nc, false);
             primaryStage.setTitle("Trap The Cat - Trapper");
         } else {
-            trapper = new Trapper(grid, nc);
-            cat = new Cat(grid);
+            trapper = new Trapper(grid, nc, false);
+            cat = new Cat(grid, nc, true);
             primaryStage.setTitle("Trap The Cat - Cat");
         }
 
