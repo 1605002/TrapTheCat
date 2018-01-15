@@ -31,6 +31,8 @@ public class Grid {
 
         brittos = new Britto[11][11];
 
+        catPosition = new Cell(5, 5);
+
         for(int i = 0; i < 11; i++) {
             for(int j = 0; j < 11; j++) {
                 Circle circle = new Circle();
@@ -39,7 +41,6 @@ public class Grid {
             }
         }
 
-        catPosition = new Cell(5, 5);
         moveTo(5, 5);
     }
 
@@ -54,7 +55,8 @@ public class Grid {
         int oldY = catPosition.getY();
         brittos[oldX][oldY].getCircle().setFill(OPEN);
         brittos[oldX][oldY].setStatus(false);
-        catPosition = new Cell(x, y);
+        catPosition.setX(x);
+        catPosition.setY(y);
         brittos[x][y].setStatus(true);
         brittos[x][y].getCircle().setFill(BILAIASE);
     }
