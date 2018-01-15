@@ -38,10 +38,14 @@ public class Game implements Runnable {
             if (turn.getTurn()==0) {
                 cell = (Cell) trapper.read();
                 cat.write(cell);
+
+                System.out.println("Trapper blocked " + cell.getX() + " " + cell.getY());
             }
             else {
                 cell = (Cell) cat.read();
                 trapper.write(cell);
+
+                System.out.println("Cat moved to " + cell.getX() + " " + cell.getY());
             }
 
             turn.toggle();
