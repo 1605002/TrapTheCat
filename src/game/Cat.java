@@ -7,14 +7,9 @@ import static game.Britto.getClickedCell;
 public class Cat extends Player {
     private boolean isHuman;
 
-    public Cat(Grid grid, NetworkUtil server) {
+    public Cat(Grid grid, NetworkUtil server, boolean isHuman) {
         super(grid, server);
-        isHuman = false;
-    }
-
-    public Cat(Grid grid) {
-        super(grid);
-        isHuman = true;
+        this.isHuman = isHuman;
     }
 
     public void makeMove() {
