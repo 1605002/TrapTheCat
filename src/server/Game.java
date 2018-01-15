@@ -27,6 +27,7 @@ public class Game implements Runnable {
             Cell cell = new Cell(x, y);
             trapper.write(cell);
             cat.write(cell);
+            System.out.println(cell.getX() + " - " + cell.getY() + " blocked");
         }
 
 
