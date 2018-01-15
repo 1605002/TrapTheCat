@@ -21,14 +21,15 @@ public class Trapper extends Player {
             cell = (Cell) super.readFromServer();
         } else {
             while (true) {
-                cell = Britto.getClickedCell();
-                if (cell != null) {
+                if (Britto.getClickedCell() != null) {
+                    cell = new Cell(Britto.getClickedCell().getX(), Britto.getClickedCell().getY());
                     Britto.setClickedCell(null);
                     break;
                 }
             }
             super.writeToServer(cell);
         }
+        System.out.println("Blocked " + cell.getX() + " , " + cell.getY());
 
         grid.block(cell.getX(), cell.getY());
     }
