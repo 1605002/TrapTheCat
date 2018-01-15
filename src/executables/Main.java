@@ -25,7 +25,9 @@ public class Main extends Application {
         int option = scanner.nextInt();
 
         NetworkUtil nc = new NetworkUtil("127.0.0.1", 44444);
-        Grid grid = new Grid(scene, root, option);
+        Turn turn = new Turn();
+        Grid grid = new Grid(scene, root, turn, option);
+
         Trapper trapper;
         Cat cat;
 
@@ -48,7 +50,7 @@ public class Main extends Application {
             System.out.println(cell.getX() + " - " + cell.getY() + " blocked");
         }
 
-        new Flow(trapper, cat);
+        new Flow(trapper, cat, turn);
 
         primaryStage.setScene(scene);
         primaryStage.show();
