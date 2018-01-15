@@ -23,8 +23,8 @@ public class Cat extends Player {
             cell = (Cell) super.readFromServer();
         } else {
             while (true) {
-                cell = Britto.getClickedCell();
-                if (cell != null) {
+                if (Britto.getClickedCell() != null) {
+                    cell = new Cell(Britto.getClickedCell().getX(), Britto.getClickedCell().getY());
                     Britto.setClickedCell(null);
                     break;
                 }
