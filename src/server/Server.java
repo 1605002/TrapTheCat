@@ -24,8 +24,14 @@ public class Server {
 
                 Cell information = (Cell) nc.read();
 
-                if (information.getX()==0) trappers.add(nc);
-                else cats.add(nc);
+                if (information.getX()==0) {
+                    trappers.add(nc);
+                    System.out.println("A trapper has joined");
+                }
+                else {
+                    cats.add(nc);
+                    System.out.println("A cat has joined");
+                }
 
                 if (!trappers.isEmpty() && !cats.isEmpty()) {
                     new Game(trappers.peek(), cats.peek());
