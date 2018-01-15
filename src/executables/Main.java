@@ -48,17 +48,10 @@ public class Main extends Application {
             System.out.println(cell.getX() + " - " + cell.getY() + " blocked");
         }
 
+        new Flow(trapper, cat);
 
-        primaryStage.setTitle("Trap The Cat");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        Turn turn = new Turn();
-
-        while (true) {
-            if (turn.getTurn()==0) trapper.makeMove();
-            else cat.makeMove();
-        }
     }
 
 
