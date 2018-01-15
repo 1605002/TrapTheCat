@@ -32,7 +32,7 @@ public class Grid {
 
         for(int i = 0; i < 11; i++) {
             for(int j = 0; j < 11; j++) {
-                Circle circle = new Circle();
+                Circle circle = new Circle(50+40*i+20*(j%2), 50+40*j, 19);
                 brittos[i][j] = new Britto(this.scene, circle, i, j, false, turn, player, catPosition);
                 this.root.getChildren().add(brittos[i][j].getCircle());
             }
