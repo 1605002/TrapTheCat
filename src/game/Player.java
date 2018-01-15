@@ -11,14 +11,14 @@ public abstract class Player {
         this.server = server;
     }
 
-    public Player(Grid grid) {
-        this.grid = grid;
-    }
-
     abstract public void makeMove();
 
     public Cell readFromServer() {
         return (Cell) server.read();
     }
-    public void writeToServer(Cell cell) { server.write(cell);}
+
+    public void writeToServer(Cell cell) {
+        System.out.println("Trying to write " + cell.getX() + " , " + cell.getY());
+        server.write(cell);
+    }
 }
