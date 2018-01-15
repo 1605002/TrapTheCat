@@ -7,20 +7,22 @@ import game.Turn;
 
 public class Flow implements Runnable {
     Player trapper, cat;
+    Turn turn;
 
-    public Flow(Trapper trapper, Cat cat) {
+    public Flow(Trapper trapper, Cat cat, Turn turn) {
         this.trapper = trapper;
         this.cat = cat;
+        this.turn = turn;
+
         new Thread(this).start();
     }
 
     @Override
     public void run() {
-        Turn turn = new Turn();
-
         while (true) {
             if (turn.getTurn()==0) trapper.makeMove();
             else cat.makeMove();
+            turn.toggle();
         }
     }
 }
