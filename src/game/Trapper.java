@@ -5,14 +5,9 @@ import util.NetworkUtil;
 public class Trapper extends Player {
     private boolean isHuman;
 
-    public Trapper(Grid grid, NetworkUtil server) {
+    public Trapper(Grid grid, NetworkUtil server, boolean isHuman) {
         super(grid, server);
-        isHuman = false;
-    }
-
-    public Trapper(Grid grid) {
-        super(grid);
-        isHuman = true;
+        this.isHuman = isHuman;
     }
 
     public void makeMove() {
