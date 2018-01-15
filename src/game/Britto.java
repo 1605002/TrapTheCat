@@ -99,8 +99,8 @@ public class Britto {
         this.status = status;
         this.turn = turn;
 
-        circle.setCenterX(50+40*row+20*(column%2));
-        circle.setCenterY(50+40*column);
+        circle.setCenterX(50+40*column+20*(row%2));
+        circle.setCenterY(50+40*row);
         circle.setRadius(19);
         circle.setFill(Grid.OPEN);
 
