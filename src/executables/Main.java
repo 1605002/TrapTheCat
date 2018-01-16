@@ -20,12 +20,26 @@ import java.util.concurrent.Future;
 
 
 public class Main extends Application {
+    Stage window;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        window = primaryStage;
+        showStartScene();
+    }
+
+    protected void showStartScene() {
+        // do stuff
+        showServerScene();
+    }
+
+    private void showServerScene() {
+        showGameScene();
+    }
+
+    private void showGameScene() {
         Group root = new Group();
-        Scene scene = new Scene(root, 500, 500);
+        Scene scene = new Scene(root, 600, 600);
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose Player (1 for Cat & 0 for Trapper): ");
         int option = scanner.nextInt();
@@ -40,11 +54,11 @@ public class Main extends Application {
         if (option==0) {
             trapper = new Trapper(grid, nc, true);
             cat = new Cat(grid, nc, false);
-            primaryStage.setTitle("Trap The Cat - Trapper");
+            window.setTitle("Trap The Cat - Trapper");
         } else {
             trapper = new Trapper(grid, nc, false);
             cat = new Cat(grid, nc, true);
-            primaryStage.setTitle("Trap The Cat - Cat");
+            window.setTitle("Trap The Cat - Cat");
         }
 
         nc.write(new Cell(option, -1));
@@ -57,14 +71,12 @@ public class Main extends Application {
         }
 
 
-        Flow flow = new Flow(trapper, cat, turn, root);
+        Flow flow = new Flow(trapper, cat, turn, scene, root, this);
 
-        primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        window.setResizable(false);
+        window.setScene(scene);
+        window.show();
     }
-
-
 
     public static void main(String[] args) {
         launch(args);

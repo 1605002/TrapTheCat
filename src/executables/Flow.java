@@ -2,9 +2,15 @@ package executables;
 
 import game.*;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -20,12 +26,16 @@ public class Flow implements Runnable {
     private String message;
     private Group root;
     private Thread thr;
+    private Main main;
+    private Scene scene;
 
-    public Flow(Trapper trapper, Cat cat, Turn turn, Group root) {
+    public Flow(Trapper trapper, Cat cat, Turn turn, Scene scene, Group root, Main main) {
         this.trapper = trapper;
         this.cat = cat;
         this.turn = turn;
+        this.scene = scene;
         this.root = root;
+        this.main = main;
 
         finished = false;
 
@@ -64,33 +74,57 @@ public class Flow implements Runnable {
             System.out.println(message);
         }
 
-        showWinningStatus(message, root);
+        showWinningStatus();
     }
 
     public static boolean isFinished() {
         return finished;
     }
 
-    private void showWinningStatus(String msg, Group root) {
+    private void showWinningStatus() {
         Platform.runLater(new Runnable() {
           @Override
           public void run() {
-              Rectangle rectangle = new Rectangle(0, 0, 500, 500);
+              Rectangle rectangle = new Rectangle(0, 0, 600, 600);
               rectangle.setFill(Color.WHITE);
-              rectangle.setOpacity(0.5);
+              rectangle.setOpacity(0.7);
               root.getChildren().add(rectangle);
 
-              Label label = new Label(msg);
-              label.setFont(Font.font("ubuntu", FontWeight.EXTRA_BOLD, 56));
+              Label label = new Label(message);
+              label.setFont(Font.font("ubuntu", FontWeight.EXTRA_BOLD, 48));
+              label.setTranslateY(250);
+              label.setPrefWidth(600);
               label.setAlignment(Pos.CENTER);
+              root.getChildren().add(label);
 
-              label.setTranslateX(150);
-              label.setTranslateY(200);
+              Label exitLabel = new Label("GO BACK");
+              exitLabel.setFont(Font.font("ubuntu", 32));
+              exitLabel.setPrefWidth(600);
+              exitLabel.setAlignment(Pos.CENTER);
+              exitLabel.setTranslateY(310);
 
-              Pane stackPane = new StackPane();
-              stackPane.getChildren().add(label);
+              exitLabel.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                  @Override
+                  public void handle(MouseEvent event) {
+                      exitLabel.setTextFill(Color.GREEN);
+                      scene.setCursor(Cursor.HAND);
+                  }
+              });
+              exitLabel.setOnMouseExited(new EventHandler<MouseEvent>() {
+                  @Override
+                  public void handle(MouseEvent event) {
+                      exitLabel.setTextFill(Color.BLACK);
+                      scene.setCursor(Cursor.DEFAULT);
+                  }
+              });
+              exitLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                  @Override
+                  public void handle(MouseEvent event) {
+                      main.showStartScene();
+                  }
+              });
 
-              root.getChildren().add(stackPane);
+              root.getChildren().add(exitLabel);
           }
       });
     }
