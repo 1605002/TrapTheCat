@@ -52,6 +52,7 @@ public class Main extends Application {
 
         new Flow(trapper, cat, turn);
 
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
