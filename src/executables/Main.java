@@ -7,10 +7,16 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.NetworkUtil;
 
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 public class Main extends Application {
@@ -50,12 +56,14 @@ public class Main extends Application {
             System.out.println(cell.getX() + " - " + cell.getY() + " blocked");
         }
 
-        new Flow(trapper, cat, turn);
+
+        Flow flow = new Flow(trapper, cat, turn, root);
 
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 
 
     public static void main(String[] args) {
