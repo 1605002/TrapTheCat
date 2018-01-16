@@ -39,13 +39,20 @@ public class Game implements Runnable {
                 cell = (Cell) trapper.read();
                 cat.write(cell);
 
-                System.out.println("Trapper blocked " + cell.getX() + " " + cell.getY());
+                System.out.println("Trapper blocked (" + cell.getX() + "," + cell.getY() + ")");
             }
             else {
                 cell = (Cell) cat.read();
                 trapper.write(cell);
 
-                System.out.println("Cat moved to " + cell.getX() + " " + cell.getY());
+                System.out.println("Cat moved to (" + cell.getX() + "," + cell.getY() + ")");
+            }
+
+            if (cell.getX()==-1 && cell.getY()==-1) {
+                if (turn.getTurn()==1) System.out.println("Trapper has won!");
+                else System.out.println("Cat has won!");
+                System.out.println("Game finished!");
+                break;
             }
 
             turn.toggle();
