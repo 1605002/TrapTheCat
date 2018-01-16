@@ -1,5 +1,6 @@
 package game;
 
+import executables.Flow;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -57,6 +58,7 @@ public class Britto {
     private Cell catPosition;
 
     public boolean isValidCell() {
+        if (Flow.isFinished()) return false;
         if (turn.getTurn()!=getPlayer()) return false;
         if (isStatus()==true) return false;
 

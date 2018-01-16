@@ -12,13 +12,13 @@ public abstract class Player {
     }
 
     abstract public void makeMove();
+    abstract public boolean hasWon();
 
     public Cell readFromServer() {
         return (Cell) server.read();
     }
 
     public void writeToServer(Cell cell) {
-        System.out.println("Trying to write " + cell.getX() + " , " + cell.getY());
         server.write(cell);
     }
 }

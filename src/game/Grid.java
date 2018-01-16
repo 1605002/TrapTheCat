@@ -61,4 +61,11 @@ public class Grid {
         brittos[x][y].getCircle().setFill(BILAIASE);
     }
 
+    public Cell getCatPosition() {
+        return catPosition;
+    }
+
+    public boolean getStausOfBritto(int i, int j) {
+        return brittos[i][j].isStatus();
+    }
 }

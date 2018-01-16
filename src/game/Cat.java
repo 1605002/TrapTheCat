@@ -26,11 +26,21 @@ public class Cat extends Player {
             }
             super.writeToServer(cell);
         }
+        System.out.println("Cat moved to (" + cell.getX() + "," + cell.getY() + ")");
 
         grid.moveTo(cell.getX(), cell.getY());
     }
 
     public Cell moveByAI() {
         return null;
+    }
+
+    public boolean hasWon() {
+        Cell catPosition = grid.getCatPosition();
+
+        if (catPosition.getX()==0 || catPosition.getY() == 0 ||
+                catPosition.getX()== 10 || catPosition.getY() == 10) return true;
+
+        return false;
     }
 }
