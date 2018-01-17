@@ -25,11 +25,11 @@ public class Britto {
         }
     }
 
-    static int dxEven[] = {0, -1, -1, 0, 1, 1};
-    static int dyEven[] = {1, 0, -1, -1, -1, 0};
+    public static int dxEven[] = {0, -1, -1, 0, 1, 1};
+    public static int dyEven[] = {1, 0, -1, -1, -1, 0};
 
-    static int dxOdd[] = {0, -1, -1, 0, 1, 1};
-    static int dyOdd[] = {1, 1, 0, -1, 0, 1};
+    public static int dxOdd[] = {0, -1, -1, 0, 1, 1};
+    public static int dyOdd[] = {1, 1, 0, -1, 0, 1};
 
     private int player;
     public int getPlayer() { return player; }
