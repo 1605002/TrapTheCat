@@ -4,7 +4,9 @@ import game.*;
 import game.player.Cat;
 import game.player.Trapper;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -19,7 +21,7 @@ import java.util.Scanner;
 
 
 public class Main extends Application {
-    private Stage window;
+    public static Stage window;
     private int option;
 
     @Override
@@ -28,7 +30,12 @@ public class Main extends Application {
         window.setTitle("Trap The Cat");
         Image image = new Image(getClass().getResourceAsStream("icon1.png"));
         window.getIcons().add(image);
-        showStartScene();
+        //showStartScene();
+        Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+        Scene scene = new Scene(root, 600, 600);
+        scene.getStylesheets().add(getClass().getResource("MainScene.css").toExternalForm());
+        window.setScene(scene);
+        window.show();
     }
 
     protected void showStartScene() {
@@ -119,6 +126,7 @@ public class Main extends Application {
         window.setScene(scene);
         window.show();
     }
+
 
     public static void main(String[] args) {
         launch(args);
