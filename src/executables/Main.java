@@ -12,6 +12,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import server.Game;
 import util.NetworkUtil;
 
 import java.util.Scanner;
@@ -104,7 +105,7 @@ public class Main extends Application {
 
         nc.write(new Cell(option, -1));
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < Game.NUMBER_OF_BLOCKED_CELL; i++) {
             Cell cell = (Cell) nc.read();
             if (cell.getX()==5 && cell.getY()==5) continue;
             grid.block(cell.getX(), cell.getY());

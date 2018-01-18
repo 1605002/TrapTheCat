@@ -1,19 +1,24 @@
 package server;
 
 import game.Cell;
+import game.RequestType;
+import game.player.PlayerInfo;
 import util.NetworkUtil;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Server {
 
     public static void main(String[] args) {
-        Queue<NetworkUtil> trappers = new LinkedList<>();
-        Queue<NetworkUtil> cats = new LinkedList<>();
+
+        ArrayList<PlayerInfo> adminsList = new ArrayList<>();
+        ArrayList<NetworkUtil> adminsNc = new ArrayList<>();
 
         try {
             ServerSocket ss = new ServerSocket(44444);
@@ -22,25 +27,25 @@ public class Server {
                 Socket cs = ss.accept();
                 NetworkUtil nc = new NetworkUtil(cs);
 
-                Cell information = (Cell) nc.read();
+                RequestType requestType = (RequestType) nc.read();
 
-                if (information.getX()==0) {
-                    trappers.add(nc);
-                    System.out.println("A trapper has joined");
-                }
-                else {
-                    cats.add(nc);
-                    System.out.println("A cat has joined");
-                }
-
-                if (!trappers.isEmpty() && !cats.isEmpty()) {
-                    new Game(trappers.peek(), cats.peek());
-                    trappers.remove();
-                    cats.remove();
+                if (requestType.getType()==RequestType.SHOW_HIGH_SCORE) {
+                    showHighScore(nc);
+                } else if (requestType.getType()==RequestType.CREATE_GAME) {
+                    PlayerInfo playerInfo = (PlayerInfo) nc.read();
+                    adminsList.add(playerInfo);
+                    adminsNc.add(nc);
+                } else if (requestType.getType()==RequestType.JOIN_GAME) {
+                    PlayerInfo playerInfo = (PlayerInfo) nc.read();
+                    new Kamla(adminsList, adminsNc, playerInfo, nc);
                 }
             }
         } catch (IOException e) {
             System.out.println("Server status: " + e);
         }
+    }
+
+    private static void showHighScore(NetworkUtil nc) {
+        // do it
     }
 }
