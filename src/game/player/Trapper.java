@@ -36,21 +36,10 @@ public class Trapper extends Player {
         return null;
     }
 
+
     public boolean hasWon() {
         Cell catPosition = grid.getCatPosition();
 
-        if (catPosition.getX()%2==0) {
-            for (int i = 0; i < 6; i++) {
-                if (!grid.getStausOfBritto(catPosition.getX()+Britto.dxEven[i],
-                        catPosition.getY()+Britto.dyEven[i])) return false;
-            }
-        } else {
-            for (int i = 0; i < 6; i++) {
-                if (!grid.getStausOfBritto(catPosition.getX()+Britto.dxOdd[i],
-                        catPosition.getY()+Britto.dyOdd[i])) return false;
-            }
-        }
-
-        return true;
+        return Cat.bfs(catPosition.getX(), catPosition.getY(), grid) == 2000;
     }
 }

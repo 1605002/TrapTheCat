@@ -20,7 +20,8 @@ import sendable.Cell;
 import sendable.PlayerInfo;
 
 public class Flow implements Runnable {
-    private Player trapper, cat;
+    private Trapper trapper;
+    private Cat cat;
     private Turn turn;
     private static boolean finished;
     private String message;
@@ -35,10 +36,14 @@ public class Flow implements Runnable {
         this.turn = turn;
         this.scene = scene;
         this.root = root;
+        finished = false;
 
         status = new Label();
+        status.setTranslateY(550);
+        status.setPrefWidth(600);
+        status.setAlignment(Pos.CENTER);
+        status.setFont(Font.font("ubuntu", 18));
         root.getChildren().add(status);
-        finished = false;
 
         thr = new Thread(this);
         thr.start();

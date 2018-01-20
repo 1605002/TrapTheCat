@@ -58,7 +58,7 @@ public class Cat extends Player {
             if(grid.getStausOfBritto(x, y)) continue;
             if(minIndex == -1) minIndex = i;
 
-            int tempD = bfs(x, y);
+            int tempD = bfs(x, y, grid);
 
             if(tempD == minD) {
                 Random random = new Random();
@@ -90,7 +90,7 @@ public class Cat extends Player {
         return new Cell(x, y);
     }
 
-    private int bfs(int sX, int sY) {
+    public static int bfs(int sX, int sY, Grid grid) {
 
         int[][] dist = new int[11][11];
         int[][] col = new int[11][11];
