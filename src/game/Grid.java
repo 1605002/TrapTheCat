@@ -2,6 +2,8 @@ package game;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -13,6 +15,7 @@ public class Grid {
     static final Paint OPEN = Color.LIGHTGREEN;
     static final Paint BILAIASE = Color.RED;
 
+    private ImageView catImage;
     private Scene scene;
     private Britto[][] brittos;
     private Cell catPosition;
@@ -27,6 +30,8 @@ public class Grid {
         this.player = player;
         this.scene = scene;
         this.root = root;
+        catImage = new ImageView(new Image(getClass().getResourceAsStream("simonscat.png")));
+        catImage.setPreserveRatio(true);
 
         brittos = new Britto[11][11];
 
@@ -39,6 +44,7 @@ public class Grid {
                 this.root.getChildren().add(brittos[i][j].getCircle());
             }
         }
+        this.root.getChildren().add(catImage);
 
         moveTo(5, 5);
     }
@@ -58,6 +64,9 @@ public class Grid {
         catPosition.setY(y);
         brittos[x][y].setStatus(true);
         brittos[x][y].getCircle().setFill(BILAIASE);
+
+        catImage.setX(brittos[x][y].getCircle().getCenterX()-55);
+        catImage.setY(brittos[x][y].getCircle().getCenterY()-55);
     }
 
     public Cell getCatPosition() {
