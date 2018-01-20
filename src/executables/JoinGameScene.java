@@ -64,9 +64,16 @@ public class JoinGameScene {
         requestLabel.setTranslateX(400);
         requestLabel.setTranslateY(500);
         requestLabel.setFont(Font.font("ubuntu", 24));
+        requestLabel.setOnMouseEntered(e -> requestLabel.setTextFill(Color.DARKGREEN));
+        requestLabel.setOnMouseExited(e -> requestLabel.setTextFill(Color.BLACK));
+        requestLabel.setOnMouseClicked(e -> {
+            int idx = listView.getSelectionModel().getSelectedIndex();
+            if (idx >= 0 && idx < mapping.size()) {
+                server.write(new RequestType(RequestType.RECEIVE_PLAYER_INDEX));
+                server.write(mapping.get(idx));
+            }
+        });
         pane.getChildren().add(requestLabel);
-
-
 
         Main.window.setScene(scene);
     }
@@ -77,7 +84,7 @@ public class JoinGameScene {
         server.write(new RequestType(RequestType.SEND_ADMINS_LIST));
         PlayerInfo[] adminsList = (PlayerInfo[]) server.read();
 
-        //mapping = new ArrayList<>();
+        mapping = new ArrayList<>();
 
         System.out.println("size = " + adminsList.length);
         for (int i = 0; i < adminsList.length; i++) {
@@ -87,7 +94,7 @@ public class JoinGameScene {
             if (playerInfo.isAvailable() &&
                     (playerInfo.getPlayerType() ^ selfInfo.getPlayerType()) == 1) {
                 listView.getItems().add(playerInfo.getName());
-                //mapping.add(i);
+                mapping.add(i);
             }
         }
     }

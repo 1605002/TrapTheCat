@@ -2,6 +2,7 @@ package executables;
 
 import baksho.ConfirmBox;
 import game.player.Player;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -60,20 +61,26 @@ public class CreateGameScene {
 
                 while (true) {
                     othersInfo = (PlayerInfo) server.read();
-                    Boolean result = ConfirmBox.display("Confirmation",
-                                        othersInfo.getName() + " wants to play with you.\n" +
-                                                "Do you want to play?");
+                    boolean result = ConfirmBox.display("Confirmation",
+                            othersInfo.getName() + " wants to play with you.\n" +
+                                    "Do you want to play?");
 
                     if (result) {
+                        System.out.println("request accepted");
                         server.write(new RequestType(RequestType.REQUEST_ACCEPTED));
                         break;
                     } else {
+                        System.out.println("request denied");
                         server.write(new RequestType(RequestType.REQUEST_DENIED));
                     }
                 }
 
+                System.out.println("playing with " + othersInfo.getName());
+
                 new GameScene(selfInfo, othersInfo, server);
             }
         };
+
+        new Thread(runnable).start();
     }
 }
