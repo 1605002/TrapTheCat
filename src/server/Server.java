@@ -31,8 +31,14 @@ public class Server {
                     PlayerInfo playerInfo = (PlayerInfo) nc.read();
                     adminsList.add(playerInfo);
                     adminsNc.add(nc);
+
+                    System.out.println(playerInfo.getName() + " has created " +
+                            (String) (playerInfo.getPlayerType() == 0? " trapper" : " cat") );
                 } else if (requestType.getType()==RequestType.JOIN_GAME) {
                     PlayerInfo playerInfo = (PlayerInfo) nc.read();
+
+                    System.out.println(playerInfo.getName() + " has joined as " +
+                            (String) (playerInfo.getPlayerType() == 0? " trapper" : " cat") );
                     new Kamla(adminsList, adminsNc, playerInfo, nc);
                 }
             }

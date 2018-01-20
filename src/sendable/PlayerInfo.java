@@ -13,6 +13,10 @@ public class PlayerInfo implements Serializable{
         this.available = available;
     }
 
+    public PlayerInfo() {
+
+    }
+
     public void setName(String name) {
         this.name = name;
     }

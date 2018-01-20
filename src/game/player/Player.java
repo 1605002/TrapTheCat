@@ -23,7 +23,7 @@ public abstract class Player {
     }
 
     public void writeToServer(Cell cell) {
-        server.write(cell);
+        if (server!=null) server.write(cell);
     }
 
     public String getName() {

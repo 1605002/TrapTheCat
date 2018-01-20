@@ -36,7 +36,24 @@ public class Cat extends Player {
     }
 
     public Cell moveByAI() {
-        return null;
+        Random random = new Random();
+        Cell catPosition = grid.getCatPosition();
+
+        while (true) {
+            int idx = random.nextInt(5);
+            int x, y;
+            if (catPosition.getX()%2==0) {
+                x = catPosition.getX() + Britto.dxEven[idx];
+                y = catPosition.getY() + Britto.dyEven[idx];
+            } else {
+                x = catPosition.getX() + Britto.dxOdd[idx];
+                y = catPosition.getY() + Britto.dyOdd[idx];
+            }
+
+            if (grid.getStausOfBritto(x, y)==false) {
+                return new Cell(x, y);
+            }
+        }
     }
 
     public boolean hasWon() {

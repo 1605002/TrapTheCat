@@ -8,6 +8,8 @@ public class RequestType implements Serializable {
     public static final int JOIN_GAME = 2;
     public static final int REQUEST_ACCEPTED = 3;
     public static final int REQUEST_DENIED = 4;
+    public static final int SEND_ADMINS_LIST = 5;
+    public static final int RECEIVE_PLAYER_INDEX = 6;
 
     private int type;
 

@@ -54,7 +54,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="351.0" layoutY="445.0" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" text="Join Game">
+      <Label layoutX="351.0" layoutY="445.0" onMouseClicked="#mouseClicked" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" text="Join Game">
          <font>
             <Font size="18.0" />
          </font>

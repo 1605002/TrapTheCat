@@ -29,33 +29,42 @@ public class Kamla implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Integer idx = (Integer) kamla.read();
+            RequestType requestType = (RequestType) kamla.read();
 
-            if (adminsList.get(idx).isAvailable()==false) {
-                kamla.write(RequestType.REQUEST_DENIED);
-            } else {
-                adminsList.get(idx).setAvailable(false);
+            if (requestType.getType()==RequestType.RECEIVE_PLAYER_INDEX) {
+                Integer idx = (Integer) kamla.read();
+                if (adminsList.get(idx).isAvailable() == false) {
+                    kamla.write(RequestType.REQUEST_DENIED);
+                } else {
+                    adminsList.get(idx).setAvailable(false);
 
-                NetworkUtil admin = adminsNc.get(idx);
-                admin.write(selfInfo);
-                RequestType answer = (RequestType) admin.read();
+                    NetworkUtil admin = adminsNc.get(idx);
+                    admin.write(selfInfo);
+                    RequestType answer = (RequestType) admin.read();
 
-                kamla.write(answer);
+                    kamla.write(answer);
 
-                if (answer.getType()==RequestType.REQUEST_ACCEPTED) {
-                    if (selfInfo.getPlayerType()==0) {
-                        // This kamla is Trapper
-                        // So the admin is Cat
-                        new Game(kamla, admin, selfInfo, adminsList.get(idx));
-                    } else {
-                        // This kamla is Cat
-                        // So the admin is Trapper
-                        new Game(admin, kamla, adminsList.get(idx), selfInfo);
+                    if (answer.getType() == RequestType.REQUEST_ACCEPTED) {
+                        if (selfInfo.getPlayerType() == 0) {
+                            // This kamla is Trapper
+                            // So the admin is Cat
+                            new Game(kamla, admin, selfInfo, adminsList.get(idx));
+                        } else {
+                            // This kamla is Cat
+                            // So the admin is Trapper
+                            new Game(admin, kamla, adminsList.get(idx), selfInfo);
+                        }
+                        break;
                     }
-                    break;
-                }
 
-                adminsList.get(idx).setAvailable(true);
+                    adminsList.get(idx).setAvailable(true);
+                }
+            } else if (requestType.getType()==RequestType.SEND_ADMINS_LIST) {
+                System.out.println("Sending admins list");
+                for (PlayerInfo playerInfo : adminsList) {
+                    System.out.println("send " + playerInfo.getName());
+                }
+                kamla.write(adminsList.toArray(new PlayerInfo[adminsList.size()]));
             }
         }
     }

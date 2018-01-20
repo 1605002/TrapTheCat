@@ -23,6 +23,14 @@ public class CreateGameScene {
         this.selfInfo = selfInfo;
         this.server = server;
 
+        if (selfInfo.getPlayerType()==0) Main.window.setTitle("Trap The Cat - Trapper");
+        else Main.window.setTitle("Trap The Cat - Cat");
+
+        server.write(new RequestType(RequestType.CREATE_GAME));
+        server.write(selfInfo);
+
+        System.out.println(selfInfo.getName() + " created");
+
         Pane pane = new Pane();
 
         Rectangle rectangle = new Rectangle(150, 200, 300, 200);
@@ -57,10 +65,10 @@ public class CreateGameScene {
                                                 "Do you want to play?");
 
                     if (result) {
-                        server.write(RequestType.REQUEST_ACCEPTED);
+                        server.write(new RequestType(RequestType.REQUEST_ACCEPTED));
                         break;
                     } else {
-                        server.write(RequestType.REQUEST_DENIED);
+                        server.write(new RequestType(RequestType.REQUEST_DENIED));
                     }
                 }
 

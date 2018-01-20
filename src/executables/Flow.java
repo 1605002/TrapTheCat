@@ -37,6 +37,7 @@ public class Flow implements Runnable {
         this.root = root;
 
         status = new Label();
+        root.getChildren().add(status);
         finished = false;
 
         thr = new Thread(this);
@@ -47,7 +48,12 @@ public class Flow implements Runnable {
     public void run() {
         while (true) {
             if (turn.getTurn()==0) {
-                status.setText(trapper.getName() + "'s move");
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        status.setText(trapper.getName() + "'s move");
+                    }
+                });
                 trapper.makeMove();
                 if (trapper.hasWon()) {
                     cat.writeToServer(new Cell(-1, -1));
@@ -55,7 +61,12 @@ public class Flow implements Runnable {
                 }
             }
             else {
-                status.setText(cat.getName() + "'s move");
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        status.setText(cat.getName() + "'s move");
+                    }
+                });
                 cat.makeMove();
                 if (cat.hasWon()) {
                     trapper.writeToServer(new Cell(-1, -1));
