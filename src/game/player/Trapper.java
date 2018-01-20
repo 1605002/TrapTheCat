@@ -8,8 +8,8 @@ import util.NetworkUtil;
 public class Trapper extends Player {
     private boolean isHuman;
 
-    public Trapper(Grid grid, NetworkUtil server, boolean isHuman) {
-        super(grid, server);
+    public Trapper(Grid grid, NetworkUtil server, String name, boolean isHuman) {
+        super(grid, server, name);
         this.isHuman = isHuman;
     }
 
@@ -25,7 +25,7 @@ public class Trapper extends Player {
                     break;
                 }
             }
-            super.writeToServer(cell);
+            if (server!=null) super.writeToServer(cell);
         }
         System.out.println("Trapper blocked (" + cell.getX() + "," + cell.getY() + ")");
 

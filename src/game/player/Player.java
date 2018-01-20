@@ -6,11 +6,13 @@ import util.NetworkUtil;
 
 public abstract class Player {
     protected Grid grid;
-    private NetworkUtil server;
+    protected NetworkUtil server;
+    protected String name;
 
-    public Player(Grid grid, NetworkUtil server) {
+    public Player(Grid grid, NetworkUtil server, String name) {
         this.grid = grid;
         this.server = server;
+        this.name = name;
     }
 
     abstract public void makeMove();
@@ -22,5 +24,9 @@ public abstract class Player {
 
     public void writeToServer(Cell cell) {
         server.write(cell);
+    }
+
+    public String getName() {
+        return name;
     }
 }

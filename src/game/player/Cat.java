@@ -5,18 +5,21 @@ import sendable.Cell;
 import game.Grid;
 import util.NetworkUtil;
 
+import java.util.Random;
+
 public class Cat extends Player {
     private boolean isHuman;
 
-    public Cat(Grid grid, NetworkUtil server, boolean isHuman) {
-        super(grid, server);
+    public Cat(Grid grid, NetworkUtil server, String name, boolean isHuman) {
+        super(grid, server, name);
         this.isHuman = isHuman;
     }
 
     public void makeMove() {
         Cell cell;
         if (isHuman==false) {
-            cell = (Cell) super.readFromServer();
+            if (server==null) cell = moveByAI();
+            else cell = (Cell) super.readFromServer();
         } else {
             while (true) {
                 if (Britto.getClickedCell() != null) {
@@ -25,7 +28,7 @@ public class Cat extends Player {
                     break;
                 }
             }
-            super.writeToServer(cell);
+            if (server!=null) super.writeToServer(cell);
         }
         System.out.println("Cat moved to (" + cell.getX() + "," + cell.getY() + ")");
 

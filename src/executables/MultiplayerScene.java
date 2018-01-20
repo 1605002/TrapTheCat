@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import sendable.PlayerInfo;
+import util.NetworkUtil;
 
 import java.io.IOException;
 
@@ -36,7 +38,10 @@ public class MultiplayerScene {
         stage = (Stage) ((Label) e.getSource()).getScene().getWindow();
         String text = ((Label) e.getSource()).getText();
         if(text.equals("Go Back")) goBack();
-
+        else if (text.equals("Create Game")) {
+            new CreateGameScene(new PlayerInfo(name.getText(), cat.isSelected()? 1 : 0, true),
+                                new NetworkUtil(server.getText(), 44444));
+        }
     }
 
     public void mouseEntered(MouseEvent e) {

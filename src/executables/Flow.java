@@ -17,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import sendable.Cell;
+import sendable.PlayerInfo;
 
 public class Flow implements Runnable {
     private Player trapper, cat;
@@ -25,17 +26,17 @@ public class Flow implements Runnable {
     private String message;
     private Group root;
     private Thread thr;
-    private Main main;
     private Scene scene;
+    private Label status;
 
-    public Flow(Trapper trapper, Cat cat, Turn turn, Scene scene, Group root, Main main) {
+    public Flow(Trapper trapper, Cat cat, Turn turn, Scene scene, Group root) {
         this.trapper = trapper;
         this.cat = cat;
         this.turn = turn;
         this.scene = scene;
         this.root = root;
-        this.main = main;
 
+        status = new Label();
         finished = false;
 
         thr = new Thread(this);
@@ -46,6 +47,7 @@ public class Flow implements Runnable {
     public void run() {
         while (true) {
             if (turn.getTurn()==0) {
+                status.setText(trapper.getName() + "'s move");
                 trapper.makeMove();
                 if (trapper.hasWon()) {
                     cat.writeToServer(new Cell(-1, -1));
@@ -53,6 +55,7 @@ public class Flow implements Runnable {
                 }
             }
             else {
+                status.setText(cat.getName() + "'s move");
                 cat.makeMove();
                 if (cat.hasWon()) {
                     trapper.writeToServer(new Cell(-1, -1));
@@ -119,7 +122,7 @@ public class Flow implements Runnable {
               exitLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
                   @Override
                   public void handle(MouseEvent event) {
-                      main.showStartScene();
+                      Main.mainRef.showStartScene();
                   }
               });
 

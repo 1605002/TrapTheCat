@@ -17,15 +17,7 @@ public class AboutScene {
     private Label about;
 
     public void mouseClicked(MouseEvent e) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        Scene scene = new Scene(root, 600, 600);
-        scene.getStylesheets().add(getClass().getResource("MainScene.css").toExternalForm());
-        Main.window.setScene(scene);
+        Main.mainRef.showStartScene();
     }
 
     public void mouseEntered(MouseEvent e) {

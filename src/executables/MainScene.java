@@ -6,10 +6,12 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import sendable.PlayerInfo;
 
 import java.io.IOException;
 
@@ -18,6 +20,7 @@ public class MainScene {
     Stage stage;
     @FXML
     private Pane pane;
+
 
     public void mouseClicked(MouseEvent e) {
 
@@ -30,8 +33,9 @@ public class MainScene {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        } else if (text.equals("Single Player")) {
+            new GameScene();
         }
-
         else if(text.equals("Exit")) gotoExit();
         else if(text.equals("About")) gotoAboutScene();
         //if(text.equals("About")) gotoAbout(stage);
