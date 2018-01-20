@@ -5,6 +5,8 @@ import sendable.Cell;
 import game.Grid;
 import util.NetworkUtil;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class Cat extends Player {
@@ -36,24 +38,111 @@ public class Cat extends Player {
     }
 
     public Cell moveByAI() {
-        Random random = new Random();
-        Cell catPosition = grid.getCatPosition();
 
-        while (true) {
-            int idx = random.nextInt(5);
+        int cX = grid.getCatPosition().getX(), cY = grid.getCatPosition().getY();
+        int minIndex = -1, minD = 2000;
+
+        for(int i = 0; i < 6; i++) {
+
             int x, y;
-            if (catPosition.getX()%2==0) {
-                x = catPosition.getX() + Britto.dxEven[idx];
-                y = catPosition.getY() + Britto.dyEven[idx];
-            } else {
-                x = catPosition.getX() + Britto.dxOdd[idx];
-                y = catPosition.getY() + Britto.dyOdd[idx];
+
+            if(cX%2 == 0) {
+                x = cX+Britto.dxEven[i];
+                y = cY+Britto.dyEven[i];
+            }
+            else {
+                x = cX+Britto.dxOdd[i];
+                y = cY+Britto.dyOdd[i];
             }
 
-            if (grid.getStausOfBritto(x, y)==false) {
-                return new Cell(x, y);
+            if(grid.getStausOfBritto(x, y)) continue;
+            if(minIndex == -1) minIndex = i;
+
+            int tempD = bfs(x, y);
+
+            if(tempD == minD) {
+                Random random = new Random();
+                int choice = random.nextInt(9);
+                if(choice%2 == 1) {
+                    minD = tempD;
+                    minIndex = i;
+                }
+            }
+
+            if(tempD < minD) {
+                minD = tempD;
+                minIndex = i;
             }
         }
+
+        System.out.println(minIndex);
+
+        int x, y;
+        if(cX%2 == 0) {
+            x = cX+Britto.dxEven[minIndex];
+            y = cY+Britto.dyEven[minIndex];
+        }
+        else {
+            x = cX+Britto.dxOdd[minIndex];
+            y = cY+Britto.dyOdd[minIndex];
+        }
+
+        return new Cell(x, y);
+    }
+
+    private int bfs(int sX, int sY) {
+
+        int[][] dist = new int[11][11];
+        int[][] col = new int[11][11];
+
+        for(int i = 0; i < 11; i++) {
+            for(int j = 0; j < 11; j++) {
+                dist[i][j] = 2000;
+                if(grid.getStausOfBritto(i, j)) col[i][j] = 1;
+            }
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        dist[sX][sY] = 0;
+        col[sX][sY] = 1;
+        queue.add(sX);
+        queue.add(sY);
+
+        while(!queue.isEmpty()) {
+            int x = queue.remove();
+            int y = queue.remove();
+
+            for(int i = 0; i < 6; i++) {
+
+                int p, q;
+
+                if(x%2 == 0) {
+                    p = x+Britto.dxEven[i];
+                    q = y+Britto.dyEven[i];
+                }
+                else {
+                    p = x+Britto.dxOdd[i];
+                    q = y+Britto.dyOdd[i];
+                }
+
+                if(p < 0 || p > 10 || q < 0 || q > 10) continue;
+                if(col[p][q] == 1) continue;
+
+                dist[p][q] = dist[x][y]+1;
+                col[p][q] = 1;
+                queue.add(p);
+                queue.add(q);
+            }
+        }
+
+        int minDistance = 2000;
+        for(int i = 0; i < 11; i++) {
+            for(int j = 0; j < 11; j++) {
+                if(i == 0 || i == 10 || j == 0 || j == 10) minDistance = Math.min(minDistance, dist[i][j]);
+            }
+        }
+        return minDistance;
+
     }
 
     public boolean hasWon() {
