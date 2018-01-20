@@ -1,11 +1,10 @@
 package server;
 
 import game.Turn;
-import game.Cell;
-import game.player.PlayerInfo;
+import sendable.Cell;
+import sendable.PlayerInfo;
 import util.NetworkUtil;
 
-import java.io.FileWriter;
 import java.util.Random;
 
 public class Game implements Runnable {

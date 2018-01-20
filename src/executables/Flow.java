@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import sendable.Cell;
 
 public class Flow implements Runnable {
     private Player trapper, cat;

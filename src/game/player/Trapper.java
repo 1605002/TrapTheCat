@@ -2,6 +2,7 @@ package game.player;
 
 import game.*;
 import game.Britto;
+import sendable.Cell;
 import util.NetworkUtil;
 
 public class Trapper extends Player {

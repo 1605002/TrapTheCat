@@ -14,6 +14,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sendable.Cell;
 import server.Game;
 import util.NetworkUtil;
 
@@ -34,6 +35,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         Scene scene = new Scene(root, 600, 600);
         scene.getStylesheets().add(getClass().getResource("MainScene.css").toExternalForm());
+        //System.out.println(System.getProperties());
         window.setScene(scene);
         window.show();
     }

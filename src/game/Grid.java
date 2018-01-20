@@ -5,8 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-
-import java.util.Scanner;
+import sendable.Cell;
 
 public class Grid {
 

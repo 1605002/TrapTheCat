@@ -1,7 +1,7 @@
 package server;
 
-import game.RequestType;
-import game.player.PlayerInfo;
+import sendable.RequestType;
+import sendable.PlayerInfo;
 import util.NetworkUtil;
 
 import java.util.ArrayList;

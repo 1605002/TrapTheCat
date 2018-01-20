@@ -1,7 +1,7 @@
 package game.player;
 
 import game.Britto;
-import game.Cell;
+import sendable.Cell;
 import game.Grid;
 import util.NetworkUtil;
 

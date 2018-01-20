@@ -1,17 +1,13 @@
 package server;
 
-import game.Cell;
-import game.RequestType;
-import game.player.PlayerInfo;
+import sendable.RequestType;
+import sendable.PlayerInfo;
 import util.NetworkUtil;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 public class Server {
 
