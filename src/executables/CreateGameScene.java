@@ -62,9 +62,6 @@ public class CreateGameScene {
         System.out.println(selfInfo.getName());
         System.out.println(selfInfo.getPlayerType());
 
-        //new WaitingThread(selfInfo, server);
-        //PlayerInfo othersInfo;
-
         Task<PlayerInfo> task = new Task<PlayerInfo>() {
             @Override
             protected PlayerInfo call() throws Exception {
@@ -77,13 +74,17 @@ public class CreateGameScene {
                         synchronized (this) {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Confirmation Dialog");
-                            alert.setHeaderText("Look, a Confirmation Dialog");
-                            alert.setContentText("Are you ok with this?");
-                            System.out.println(othersInfo.getName()+" sent request");
+                            alert.setHeaderText(othersInfo.getName() + " wants to play with you.");
+                            alert.setContentText("Do you want to play?");
+
+                            ButtonType acceptType = new ButtonType("Accept");
+                            ButtonType rejectType = new ButtonType("Reject");
+
+                            alert.getButtonTypes().setAll(acceptType, rejectType);
 
                             Optional<ButtonType> result = alert.showAndWait();
 
-                            if (result.get() == ButtonType.OK){
+                            if (result.get() == acceptType){
                                 answer = true;
                             } else {
                                 answer = false;

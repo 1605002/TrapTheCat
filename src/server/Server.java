@@ -1,9 +1,12 @@
 package server;
 
+import sendable.HighScore;
 import sendable.RequestType;
 import sendable.PlayerInfo;
+import util.FileIO;
 import util.NetworkUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -48,6 +51,17 @@ public class Server {
     }
 
     private static void showHighScore(NetworkUtil nc) {
-        // do it
+        System.out.println("request for showing high score");
+
+        ArrayList<HighScore> highScores;
+
+        highScores = new ArrayList<>();
+        FileIO.readFile(highScores, FileIO.TRAPPERS_FILE_NAME);
+        nc.write(highScores.toArray(new HighScore[highScores.size()]));
+
+
+        highScores = new ArrayList<>();
+        FileIO.readFile(highScores, FileIO.CATS_FILE_NAME);
+        nc.write(highScores.toArray(new HighScore[highScores.size()]));
     }
 }

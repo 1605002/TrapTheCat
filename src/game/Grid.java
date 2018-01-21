@@ -65,12 +65,12 @@ public class Grid {
         int oldX = catPosition.getX();
         int oldY = catPosition.getY();
 
-        brittos[oldX][oldY].getCircle().setFill(OPEN);
+        //brittos[oldX][oldY].getCircle().setFill(OPEN);
         brittos[oldX][oldY].setStatus(false);
         catPosition.setX(x);
         catPosition.setY(y);
         brittos[x][y].setStatus(true);
-        brittos[x][y].getCircle().setFill(BILAIASE);
+        //brittos[x][y].getCircle().setFill(BILAIASE);
 
         TranslateTransition trtl = new TranslateTransition();
         trtl.setByX(brittos[x][y].getCircle().getCenterX()-brittos[oldX][oldY].getCircle().getCenterX());

@@ -2,9 +2,14 @@ package server;
 
 import game.Turn;
 import sendable.Cell;
+import sendable.HighScore;
 import sendable.PlayerInfo;
+import util.FileIO;
 import util.NetworkUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Game implements Runnable {
@@ -71,6 +76,35 @@ public class Game implements Runnable {
     }
 
     private void saveScoreToFile(int winnerType, int moveCount) {
-        // do something
+        moveCount = (moveCount+1)/2;
+        PlayerInfo winner;
+        String fileName;
+
+        if (winnerType==1) {
+            winner = catInfo;
+            fileName = FileIO.CATS_FILE_NAME;
+        }
+        else {
+            winner = trapperInfo;
+            fileName = FileIO.TRAPPERS_FILE_NAME;
+        }
+
+        ArrayList<HighScore> highScores = new ArrayList<>();
+        highScores.add(new HighScore(winner.getName(), moveCount));
+
+        FileIO.readFile(highScores, fileName);
+
+        Collections.sort(highScores, new Comparator<HighScore>() {
+            @Override
+            public int compare(HighScore o1, HighScore o2) {
+                if (o1.getMoves()==o2.getMoves()) {
+                    return 0;
+                } else {
+                    return o1.getMoves() < o2.getMoves() ? -1 : 1;
+                }
+            }
+        });
+
+        FileIO.writeFile(highScores, fileName);
     }
 }

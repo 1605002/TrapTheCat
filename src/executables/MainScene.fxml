@@ -17,7 +17,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="98.0" layoutY="271.0" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" prefHeight="44.0" prefWidth="132.0" text="High Scores">
+      <Label alignment="CENTER" layoutX="98.0" layoutY="271.0" onMouseClicked="#mouseClicked" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" prefHeight="44.0" prefWidth="132.0" text="High Scores">
          <font>
             <Font size="22.0" />
          </font>
