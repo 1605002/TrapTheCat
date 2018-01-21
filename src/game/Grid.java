@@ -64,6 +64,7 @@ public class Grid {
 
         int oldX = catPosition.getX();
         int oldY = catPosition.getY();
+
         brittos[oldX][oldY].getCircle().setFill(OPEN);
         brittos[oldX][oldY].setStatus(false);
         catPosition.setX(x);
@@ -79,6 +80,11 @@ public class Grid {
         trtl.setNode(catImage);
         trtl.play();
 
+        try {
+            Thread.sleep(400);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public Cell getCatPosition() {
