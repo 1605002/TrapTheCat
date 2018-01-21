@@ -3,6 +3,7 @@ package executables;
 import baksho.ConfirmBox;
 import game.player.Player;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,10 +20,13 @@ import sendable.RequestType;
 import util.NetworkUtil;
 
 import java.util.Optional;
+import java.util.Scanner;
 
 public class CreateGameScene {
     private PlayerInfo selfInfo;
     private NetworkUtil server;
+    private PlayerInfo othersInfo;
+    private boolean answer = false;
 
     public CreateGameScene(PlayerInfo selfInfo, NetworkUtil server) {
         this.selfInfo = selfInfo;
@@ -59,37 +63,60 @@ public class CreateGameScene {
         System.out.println(selfInfo.getPlayerType());
 
         //new WaitingThread(selfInfo, server);
-        PlayerInfo othersInfo;
+        //PlayerInfo othersInfo;
 
-        while (true) {
-            othersInfo = (PlayerInfo) server.read();
-            boolean answer = false;
+        Task<PlayerInfo> task = new Task<PlayerInfo>() {
+            @Override
+            protected PlayerInfo call() throws Exception {
+                while (true) {
+                    othersInfo = (PlayerInfo) server.read();
+                    System.out.println(othersInfo.getName()+" sent request");
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Dialog");
-            alert.setHeaderText("Look, a Confirmation Dialog");
-            alert.setContentText("Are you ok with this?");
+                    Platform.runLater(() -> {
+                        // Update your GUI here.;
+                        synchronized (this) {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Confirmation Dialog");
+                            alert.setHeaderText("Look, a Confirmation Dialog");
+                            alert.setContentText("Are you ok with this?");
+                            System.out.println(othersInfo.getName()+" sent request");
 
-            Optional<ButtonType> result = alert.showAndWait();
+                            Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.get() == ButtonType.OK){
-                answer = true;
-            } else {
-                answer = false;
+                            if (result.get() == ButtonType.OK){
+                                answer = true;
+                            } else {
+                                answer = false;
+                            }
+                        }
+
+                    });
+
+                    Thread.sleep(500);
+                    synchronized (this) {
+                        if (answer){
+                            System.out.println("request accepted");
+                            server.write(new RequestType(RequestType.REQUEST_ACCEPTED));
+                            return othersInfo;
+                        } else {
+                            System.out.println("request denied");
+                            server.write(new RequestType(RequestType.REQUEST_DENIED));
+                        }
+                    }
+
+                }
             }
+        };
 
-            if (answer){
-                System.out.println("request accepted");
-                server.write(new RequestType(RequestType.REQUEST_ACCEPTED));
-                break;
-            } else {
-                System.out.println("request denied");
-                server.write(new RequestType(RequestType.REQUEST_DENIED));
-            }
-        }
+        task.setOnSucceeded(e -> {
+            PlayerInfo other = task.getValue();
+            // update UI with result
+            System.out.println("playing with " + othersInfo.getName());
 
-        System.out.println("playing with " + othersInfo.getName());
+            new GameScene(selfInfo, other, server);
+        });
 
-        new GameScene(selfInfo, othersInfo, server);
+        new Thread(task).start();
+
     }
 }
