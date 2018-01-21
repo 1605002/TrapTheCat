@@ -1,5 +1,6 @@
 package game;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -7,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import sendable.Cell;
 
 public class Grid {
@@ -44,9 +46,13 @@ public class Grid {
                 this.root.getChildren().add(brittos[i][j].getCircle());
             }
         }
+
+        catImage.setX(brittos[5][5].getCircle().getCenterX()-55);
+        catImage.setY(brittos[5][5].getCircle().getCenterY()-55);
+
         this.root.getChildren().add(catImage);
 
-        moveTo(5, 5);
+        //moveTo(5, 5);
     }
 
     public void block(int x, int y) {
@@ -65,8 +71,14 @@ public class Grid {
         brittos[x][y].setStatus(true);
         brittos[x][y].getCircle().setFill(BILAIASE);
 
-        catImage.setX(brittos[x][y].getCircle().getCenterX()-55);
-        catImage.setY(brittos[x][y].getCircle().getCenterY()-55);
+        TranslateTransition trtl = new TranslateTransition();
+        trtl.setByX(brittos[x][y].getCircle().getCenterX()-brittos[oldX][oldY].getCircle().getCenterX());
+        trtl.setByY(brittos[x][y].getCircle().getCenterY()-brittos[oldX][oldY].getCircle().getCenterY());
+        trtl.setDuration(Duration.millis(300));
+        trtl.setCycleCount(1);
+        trtl.setNode(catImage);
+        trtl.play();
+
     }
 
     public Cell getCatPosition() {
