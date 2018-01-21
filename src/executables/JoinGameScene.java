@@ -16,9 +16,10 @@ import java.util.ArrayList;
 public class JoinGameScene {
     private PlayerInfo selfInfo;
     private NetworkUtil server;
-    ListView<String> listView;
-    ArrayList<Integer> mapping;
-    Pane pane;
+    public PlayerInfo[] adminsList;
+    private ListView<String> listView;
+    private ArrayList<Integer> mapping;
+    private Pane pane;
 
     public JoinGameScene(PlayerInfo selfInfo, NetworkUtil server) {
         this.selfInfo = selfInfo;
@@ -71,6 +72,12 @@ public class JoinGameScene {
             if (idx >= 0 && idx < mapping.size()) {
                 server.write(new RequestType(RequestType.RECEIVE_PLAYER_INDEX));
                 server.write(mapping.get(idx));
+
+                RequestType requestType = (RequestType) server.read();
+
+                if (requestType.getType()==RequestType.REQUEST_ACCEPTED) {
+                    new GameScene(selfInfo, getAdminsList()[idx], server);
+                }
             }
         });
         pane.getChildren().add(requestLabel);
@@ -82,7 +89,7 @@ public class JoinGameScene {
         listView.getItems().clear();
 
         server.write(new RequestType(RequestType.SEND_ADMINS_LIST));
-        PlayerInfo[] adminsList = (PlayerInfo[]) server.read();
+        adminsList = (PlayerInfo[]) server.read();
 
         mapping = new ArrayList<>();
 
@@ -97,5 +104,9 @@ public class JoinGameScene {
                 mapping.add(i);
             }
         }
+    }
+
+    public PlayerInfo[] getAdminsList() {
+        return adminsList;
     }
 }

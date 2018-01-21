@@ -6,6 +6,8 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -15,6 +17,8 @@ import javafx.scene.text.FontWeight;
 import sendable.PlayerInfo;
 import sendable.RequestType;
 import util.NetworkUtil;
+
+import java.util.Optional;
 
 public class CreateGameScene {
     private PlayerInfo selfInfo;
@@ -54,33 +58,38 @@ public class CreateGameScene {
         System.out.println(selfInfo.getName());
         System.out.println(selfInfo.getPlayerType());
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                PlayerInfo othersInfo;
+        //new WaitingThread(selfInfo, server);
+        PlayerInfo othersInfo;
 
-                while (true) {
-                    othersInfo = (PlayerInfo) server.read();
-                    boolean result = ConfirmBox.display("Confirmation",
-                            othersInfo.getName() + " wants to play with you.\n" +
-                                    "Do you want to play?");
+        while (true) {
+            othersInfo = (PlayerInfo) server.read();
+            boolean answer = false;
 
-                    if (result) {
-                        System.out.println("request accepted");
-                        server.write(new RequestType(RequestType.REQUEST_ACCEPTED));
-                        break;
-                    } else {
-                        System.out.println("request denied");
-                        server.write(new RequestType(RequestType.REQUEST_DENIED));
-                    }
-                }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Look, a Confirmation Dialog");
+            alert.setContentText("Are you ok with this?");
 
-                System.out.println("playing with " + othersInfo.getName());
+            Optional<ButtonType> result = alert.showAndWait();
 
-                new GameScene(selfInfo, othersInfo, server);
+            if (result.get() == ButtonType.OK){
+                answer = true;
+            } else {
+                answer = false;
             }
-        };
 
-        new Thread(runnable).start();
+            if (answer){
+                System.out.println("request accepted");
+                server.write(new RequestType(RequestType.REQUEST_ACCEPTED));
+                break;
+            } else {
+                System.out.println("request denied");
+                server.write(new RequestType(RequestType.REQUEST_DENIED));
+            }
+        }
+
+        System.out.println("playing with " + othersInfo.getName());
+
+        new GameScene(selfInfo, othersInfo, server);
     }
 }

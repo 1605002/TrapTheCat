@@ -75,7 +75,7 @@ public class Cat extends Player {
             }
         }
 
-        System.out.println(minIndex);
+        //System.out.println(minIndex);
 
         int x, y;
         if(cX%2 == 0) {
