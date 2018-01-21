@@ -47,12 +47,12 @@ public class Grid {
             }
         }
 
-        catImage.setX(brittos[5][5].getCircle().getCenterX()-55);
-        catImage.setY(brittos[5][5].getCircle().getCenterY()-55);
+        catImage.setX(brittos[5][5].getCircle().getCenterX()-42);
+        catImage.setY(brittos[5][5].getCircle().getCenterY()-42);
 
         this.root.getChildren().add(catImage);
 
-        //moveTo(5, 5);
+        moveTo(5, 5);
     }
 
     public void block(int x, int y) {
