@@ -1,6 +1,7 @@
 package game;
 
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -8,6 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import sendable.Cell;
 
@@ -17,6 +21,8 @@ public class Grid {
     static final Paint OPEN = Color.LIGHTGREEN;
     static final Paint BILAIASE = Color.RED;
 
+    private final int offsetX = 35;
+    private final int offsetY = 35;
     private ImageView catImage;
     private Scene scene;
     private Britto[][] brittos;
@@ -32,7 +38,7 @@ public class Grid {
         this.player = player;
         this.scene = scene;
         this.root = root;
-        catImage = new ImageView(new Image(getClass().getResourceAsStream("simonscat.png")));
+        catImage = new ImageView(new Image(getClass().getResourceAsStream("frames/0.png")));
         catImage.setPreserveRatio(true);
 
         brittos = new Britto[11][11];
@@ -47,12 +53,10 @@ public class Grid {
             }
         }
 
-        catImage.setX(brittos[5][5].getCircle().getCenterX()-42);
-        catImage.setY(brittos[5][5].getCircle().getCenterY()-42);
+        catImage.setX(brittos[5][5].getCircle().getCenterX()-offsetX);
+        catImage.setY(brittos[5][5].getCircle().getCenterY()-offsetY);
 
         this.root.getChildren().add(catImage);
-
-        moveTo(5, 5);
     }
 
     public void block(int x, int y) {
@@ -72,16 +76,45 @@ public class Grid {
         brittos[x][y].setStatus(true);
         //brittos[x][y].getCircle().setFill(BILAIASE);
 
-        TranslateTransition trtl = new TranslateTransition();
-        trtl.setByX(brittos[x][y].getCircle().getCenterX()-brittos[oldX][oldY].getCircle().getCenterX());
-        trtl.setByY(brittos[x][y].getCircle().getCenterY()-brittos[oldX][oldY].getCircle().getCenterY());
-        trtl.setDuration(Duration.millis(300));
-        trtl.setCycleCount(1);
-        trtl.setNode(catImage);
-        trtl.play();
+        double dx = brittos[x][y].getCircle().getCenterX()-brittos[oldX][oldY].getCircle().getCenterX();
+        double dy = brittos[x][y].getCircle().getCenterY()-brittos[oldX][oldY].getCircle().getCenterY();
+
+        if (dy > 0) {
+            if (dx > 0) {
+                catImage.setScaleX(-1.0);
+                catImage.setRotate(45);
+            }
+            else {
+                catImage.setScaleX(1.0);
+                catImage.setRotate(-45);
+            }
+        } else if (dy < 0) {
+            if (dx > 0) {
+                catImage.setScaleX(-1.0);
+                catImage.setRotate(-45);
+            }
+            else {
+                catImage.setScaleX(1.0);
+                catImage.setRotate(45);
+            }
+        }
+        else {
+            if (dx < 0) {
+                catImage.setScaleX(1.0);
+                catImage.setRotate(0);
+            }
+            else {
+                catImage.setScaleX(-1.0);
+                catImage.setRotate(0);
+            }
+        }
+
+        CatAnimation animation = new CatAnimation(catImage, dx, dy);
+
+        animation.play();
 
         try {
-            Thread.sleep(400);
+            Thread.sleep(1000);
         } catch (Exception e) {
             System.out.println(e);
         }
