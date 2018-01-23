@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -91,8 +92,66 @@ public class MainScene {
     public void showHighScoreScene() {
         Group group = new Group();
         Scene scene = new Scene(group, 600,600);
+        scene.getStylesheets().add(getClass().getResource("HighScoreScene.css").toExternalForm());
+        Main.window.setScene(scene);
 
-        NetworkUtil nc = new NetworkUtil("127.0.0.1", 44444);
+        Label serverAdress = new Label("Use server address");
+        serverAdress.setTranslateX(30);
+        serverAdress.setTranslateY(10);
+        serverAdress.setStyle(" -fx-font-size: 18; -fx-font-family: ubuntu ");
+        group.getChildren().add(serverAdress);
+
+        TextField textField = new TextField("127.0.0.1");
+        textField.setTranslateX(30);
+        textField.setTranslateY(40);
+        textField.setStyle(" -fx-font-size: 18; -fx-font-family: ubuntu ");
+        group.getChildren().add(textField);
+
+        Label showScore = new Label("Refresh");
+        showScore.setTranslateX(330);
+        showScore.setTranslateY(40);
+        showScore.setStyle(" -fx-font-size: 18; -fx-font-family: ubuntu ");
+
+        showScore.setOnMouseEntered(e -> {
+            showScore.setTextFill(Color.DARKGREEN);
+            scene.setCursor(Cursor.HAND);
+        });
+        showScore.setOnMouseExited(e -> {
+            showScore.setTextFill(Color.BLACK);
+            scene.setCursor(Cursor.DEFAULT);
+        });
+        showScore.setOnMouseClicked(e -> {
+            //showHighScoreScene();
+            loadHighScore(group, textField.getText());
+        });
+
+        group.getChildren().add(showScore);
+
+
+
+        Label label = new Label("Go Back");
+
+        label.setOnMouseEntered(e -> {
+            label.setTextFill(Color.DARKGREEN);
+            scene.setCursor(Cursor.HAND);
+        });
+        label.setOnMouseExited(e -> {
+            label.setTextFill(Color.BLACK);
+            scene.setCursor(Cursor.DEFAULT);
+        });
+        label.setOnMouseClicked(e -> Main.mainRef.showStartScene());
+
+        label.setFont(Font.font("ubuntu", 24));
+        label.setPrefWidth(600);
+        label.setAlignment(Pos.CENTER);
+        label.setTranslateY(530);
+        group.getChildren().add(label);
+
+    }
+
+    void loadHighScore(Group group, String address) {
+
+        NetworkUtil nc = new NetworkUtil(address, 44444);
 
         nc.write(new RequestType(RequestType.SHOW_HIGH_SCORE));
 
@@ -119,7 +178,7 @@ public class MainScene {
         trapperScoreTable.getColumns().addAll(trapperCol, scoreCol);
         trapperScoreTable.setEditable(false);
         trapperScoreTable.setTranslateX(30);
-        trapperScoreTable.setTranslateY(30);
+        trapperScoreTable.setTranslateY(100);
 
         ObservableList<HighScore> observableCats = FXCollections.observableArrayList();
         HighScore[] catsHighScores = (HighScore[]) nc.read();
@@ -144,27 +203,8 @@ public class MainScene {
         catScoreTable.getColumns().addAll(catsCol, scoreCol2);
         //catScoreTable.setEditable(false);
         catScoreTable.setTranslateX(320);
-        catScoreTable.setTranslateY(30);
+        catScoreTable.setTranslateY(100);
 
-        Label label = new Label("Go Back");
-
-        label.setOnMouseEntered(e -> {
-            label.setTextFill(Color.DARKGREEN);
-            scene.setCursor(Cursor.HAND);
-        });
-        label.setOnMouseExited(e -> {
-            label.setTextFill(Color.BLACK);
-            scene.setCursor(Cursor.DEFAULT);
-        });
-        label.setOnMouseClicked(e -> Main.mainRef.showStartScene());
-
-        label.setFont(Font.font("ubuntu", 24));
-        label.setPrefWidth(600);
-        label.setAlignment(Pos.CENTER);
-        label.setTranslateY(500);
-
-        group.getChildren().addAll(trapperScoreTable, catScoreTable, label);
-
-        Main.window.setScene(scene);
+        group.getChildren().addAll(trapperScoreTable, catScoreTable);
     }
 }
