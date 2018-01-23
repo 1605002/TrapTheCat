@@ -43,6 +43,7 @@ public class JoinGameScene {
 
         pane = new Pane();
         Scene scene = new Scene(pane, 600, 600);
+        scene.getStylesheets().add(getClass().getResource("HighScoreScene.css").toExternalForm());
         updateAdminsList();
 
         pane.getChildren().add(listView);
