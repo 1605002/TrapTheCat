@@ -10,10 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -150,8 +147,17 @@ public class MainScene {
     }
 
     void loadHighScore(Group group, String address) {
-
-        NetworkUtil nc = new NetworkUtil(address, 44444);
+        NetworkUtil nc;
+        try {
+            nc= new NetworkUtil(address, 44444);
+        } catch (Exception exception ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error loading server: " + address);
+            alert.setContentText("Please try again later");
+            alert.showAndWait();
+            return;
+        }
 
         nc.write(new RequestType(RequestType.SHOW_HIGH_SCORE));
 

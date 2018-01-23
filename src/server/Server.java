@@ -45,7 +45,7 @@ public class Server {
                     new Kamla(adminsList, adminsNc, playerInfo, nc);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Server status: " + e);
         }
     }

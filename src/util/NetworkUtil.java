@@ -10,24 +10,16 @@ public class NetworkUtil {
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
-    public NetworkUtil(String s, int port) {
-        try {
-            this.socket = new Socket(s, port);
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            ois = new ObjectInputStream(socket.getInputStream());
-        } catch (Exception e) {
-            System.out.println("In NetworkUtil : " + e.toString());
-        }
+    public NetworkUtil(String s, int port) throws Exception{
+        this.socket = new Socket(s, port);
+        oos = new ObjectOutputStream(socket.getOutputStream());
+        ois = new ObjectInputStream(socket.getInputStream());
     }
 
-    public NetworkUtil(Socket s) {
-        try {
-            this.socket = s;
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            ois = new ObjectInputStream(socket.getInputStream());
-        } catch (Exception e) {
-            System.out.println("In NetworkUtil : " + e.toString());
-        }
+    public NetworkUtil(Socket s) throws Exception {
+        this.socket = s;
+        oos = new ObjectOutputStream(socket.getOutputStream());
+        ois = new ObjectInputStream(socket.getInputStream());
     }
 
     public Object read() {

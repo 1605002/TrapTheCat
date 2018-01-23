@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -41,11 +38,48 @@ public class MultiplayerScene {
             goBack();
         }
         else if (text.equals("Create Game")) {
-            new CreateGameScene(new PlayerInfo(name.getText(), cat.isSelected()? 1 : 0, true),
-                                new NetworkUtil(server.getText(), 44444));
+
+            if (name.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Name not entered");
+                alert.setContentText("Please enter your name");
+                alert.showAndWait();
+            } else {
+                NetworkUtil nc;
+                try {
+                    nc = new NetworkUtil(server.getText(), 44444);
+                    new CreateGameScene(new PlayerInfo(name.getText(),
+                            cat.isSelected() ? 1 : 0, true), nc);
+                } catch (Exception exception) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error loading server: " + server.getText());
+                    alert.setContentText("Please try again later");
+                    alert.showAndWait();
+                }
+            }
         } else if (text.equals("Join Game")) {
-            new JoinGameScene(new PlayerInfo(name.getText(), cat.isSelected()? 1 : 0, true),
-                    new NetworkUtil(server.getText(), 44444));
+            if (name.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Name not entered");
+                alert.setContentText("Please enter your name");
+                alert.showAndWait();
+            } else {
+                NetworkUtil nc;
+                try {
+                    nc = new NetworkUtil(server.getText(), 44444);
+                    new JoinGameScene(new PlayerInfo(name.getText(), cat.isSelected() ? 1 : 0, true),
+                            nc);
+                } catch (Exception exception) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error loading server: " + server.getText());
+                    alert.setContentText("Please try again later");
+                    alert.showAndWait();
+                }
+            }
         }
     }
 
