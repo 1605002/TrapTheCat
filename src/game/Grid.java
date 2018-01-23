@@ -17,8 +17,8 @@ import sendable.Cell;
 
 public class Grid {
 
-    static final Paint BLOCKED = Color.DARKGREEN;
-    static final Paint OPEN = Color.LIGHTGREEN;
+    static final Paint BLOCKED = Color.rgb(84, 99, 17);
+    static final Paint OPEN = Color.rgb(218, 247, 12);
     static final Paint BILAIASE = Color.RED;
 
     private final int offsetX = 35;
