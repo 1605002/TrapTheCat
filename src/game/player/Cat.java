@@ -58,24 +58,73 @@ public class Cat extends Player {
             if(grid.getStausOfBritto(x, y)) continue;
             if(minIndex == -1) minIndex = i;
 
-            int tempD = bfs(x, y, grid);
+            grid.moveToWithoutGraphics(x, y);
+
+            int tempD = 0;
+
+            for (int p = 0; p < 11; p++) {
+                for (int q = 0; q < 11; q++) {
+                    if (grid.getStausOfBritto(p, q)) continue;
+
+                    grid.blockWithoutGraphics(p, q);
+                    tempD = Math.max(bfs(x, y, grid), tempD);
+                    grid.unblockWithoutGraphics(p, q);
+                }
+            }
+
+            grid.moveToWithoutGraphics(cX, cY);
 
             if(tempD == minD) {
                 Random random = new Random();
-                int choice = random.nextInt(9);
+                int choice = random.nextInt(2);
                 if(choice%2 == 1) {
                     minD = tempD;
                     minIndex = i;
                 }
-            }
-
-            if(tempD < minD) {
+            } else if(tempD < minD) {
                 minD = tempD;
                 minIndex = i;
             }
         }
 
-        //System.out.println(minIndex);
+        if (minD==2000) {
+            minIndex = -1; minD = 2000;
+
+            for(int i = 0; i < 6; i++) {
+
+                int x, y;
+
+                if(cX%2 == 0) {
+                    x = cX+Britto.dxEven[i];
+                    y = cY+Britto.dyEven[i];
+                }
+                else {
+                    x = cX+Britto.dxOdd[i];
+                    y = cY+Britto.dyOdd[i];
+                }
+
+                if(grid.getStausOfBritto(x, y)) continue;
+                if(minIndex == -1) minIndex = i;
+
+                int tempD = bfs(x, y, grid);
+
+                if(tempD == minD) {
+                    Random random = new Random();
+                    int choice = random.nextInt(9);
+                    if(choice%2 == 1) {
+                        minD = tempD;
+                        minIndex = i;
+                    }
+                }
+
+                if(tempD < minD) {
+                    minD = tempD;
+                    minIndex = i;
+                }
+            }
+        }
+
+        System.out.println("min distance " + minD);
 
         int x, y;
         if(cX%2 == 0) {
