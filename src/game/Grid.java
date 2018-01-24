@@ -127,4 +127,22 @@ public class Grid {
     public boolean getStausOfBritto(int i, int j) {
         return brittos[i][j].isStatus();
     }
+
+    public void moveToWithoutGraphics(int x, int y) {
+        int oldX = catPosition.getX();
+        int oldY = catPosition.getY();
+        //brittos[oldX][oldY].getCircle().setFill(OPEN);
+        brittos[oldX][oldY].setStatus(false);
+        catPosition.setX(x);
+        catPosition.setY(y);
+        brittos[x][y].setStatus(true);
+    }
+
+    public void blockWithoutGraphics(int x, int y) {
+        brittos[x][y].setStatus(true);
+    }
+
+    public void unblockWithoutGraphics(int x, int y) {
+        brittos[x][y].setStatus(false);
+    }
 }
