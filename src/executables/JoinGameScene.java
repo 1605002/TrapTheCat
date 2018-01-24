@@ -71,8 +71,10 @@ public class JoinGameScene {
         requestLabel.setOnMouseClicked(e -> {
             int idx = listView.getSelectionModel().getSelectedIndex();
             if (idx >= 0 && idx < mapping.size()) {
+                idx = mapping.get(idx);
+
                 server.write(new RequestType(RequestType.RECEIVE_PLAYER_INDEX));
-                server.write(mapping.get(idx));
+                server.write(idx);
 
                 RequestType requestType = (RequestType) server.read();
 
