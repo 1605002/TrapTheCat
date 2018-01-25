@@ -32,7 +32,7 @@ public class Game implements Runnable {
 
         Random random = new Random();
 
-        for (int i = 0; i < NUMBER_OF_BLOCKED_CELL; i++) {
+        /*for (int i = 0; i < NUMBER_OF_BLOCKED_CELL; i++) {
             int x = random.nextInt(10);
             int y = random.nextInt(10);
 
@@ -40,8 +40,37 @@ public class Game implements Runnable {
             trapper.write(cell);
             cat.write(cell);
             System.out.println(cell.getX() + " - " + cell.getY() + " blocked");
+        }*/
+
+        int checker[] = new int[4];
+        int cnt = 0;
+
+        while(true) {
+
+            int x = random.nextInt(10);
+            int y = random.nextInt(10);
+
+            if (x==5 && y==5) continue;
+            cnt++;
+
+            Cell cell = new Cell(x, y);
+            trapper.write(cell);
+            cat.write(cell);
+            System.out.println(cell.getX() + " - " + cell.getY() + " blocked");
+
+            if(x <= 5 && y <= 5) checker[0] = 1;
+            else if(x <= 5) checker[1] = 1;
+            else if(y <= 5) checker[2] = 1;
+            else checker[3] = 1;
+
+            int sum = 0;
+            for(int i = 0; i < 4; i++) sum += checker[i];
+
+            if(sum == 4 && cnt >= 6) break;
         }
 
+        trapper.write(new Cell(-1, -1));
+        cat.write(new Cell(-1, -1));
 
         Turn turn = new Turn();
 
