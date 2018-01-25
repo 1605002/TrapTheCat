@@ -38,6 +38,12 @@ public class Cat extends Player {
     }
 
     public Cell moveByAI() {
+        return moveByThinkingAhead();
+        //return moveByShortestPath();
+        //return moveByRandom();
+    }
+
+    public Cell moveByThinkingAhead() {
 
         int cX = grid.getCatPosition().getX(), cY = grid.getCatPosition().getY();
         int minIndex = -1, minD = 2000;
@@ -67,7 +73,7 @@ public class Cat extends Player {
                     if (grid.getStausOfBritto(p, q)) continue;
 
                     grid.blockWithoutGraphics(p, q);
-                    tempD = Math.max(bfs(x, y, grid), tempD);
+                    tempD += bfs(x, y, grid);
                     grid.unblockWithoutGraphics(p, q);
                 }
             }
@@ -87,44 +93,11 @@ public class Cat extends Player {
             }
         }
 
+        System.out.println("score = " + minD);
+
         if (minD==2000) {
-            minIndex = -1; minD = 2000;
-
-            for(int i = 0; i < 6; i++) {
-
-                int x, y;
-
-                if(cX%2 == 0) {
-                    x = cX+Britto.dxEven[i];
-                    y = cY+Britto.dyEven[i];
-                }
-                else {
-                    x = cX+Britto.dxOdd[i];
-                    y = cY+Britto.dyOdd[i];
-                }
-
-                if(grid.getStausOfBritto(x, y)) continue;
-                if(minIndex == -1) minIndex = i;
-
-                int tempD = bfs(x, y, grid);
-
-                if(tempD == minD) {
-                    Random random = new Random();
-                    int choice = random.nextInt(9);
-                    if(choice%2 == 1) {
-                        minD = tempD;
-                        minIndex = i;
-                    }
-                }
-
-                if(tempD < minD) {
-                    minD = tempD;
-                    minIndex = i;
-                }
-            }
+            return moveByShortestPath();
         }
-
-        System.out.println("min distance " + minD);
 
         int x, y;
         if(cX%2 == 0) {
@@ -137,6 +110,80 @@ public class Cat extends Player {
         }
 
         return new Cell(x, y);
+    }
+
+    public Cell moveByShortestPath() {
+
+        int cX = grid.getCatPosition().getX(), cY = grid.getCatPosition().getY();
+        int minIndex = -1, minD = 2000;
+
+        for(int i = 0; i < 6; i++) {
+
+            int x, y;
+
+            if(cX%2 == 0) {
+                x = cX+Britto.dxEven[i];
+                y = cY+Britto.dyEven[i];
+            }
+            else {
+                x = cX+Britto.dxOdd[i];
+                y = cY+Britto.dyOdd[i];
+            }
+
+            if(grid.getStausOfBritto(x, y)) continue;
+            if(minIndex == -1) minIndex = i;
+
+            int tempD = bfs(x, y, grid);
+
+            if(tempD == minD) {
+                Random random = new Random();
+                int choice = random.nextInt(2);
+                if(choice%2 == 1) {
+                    minD = tempD;
+                    minIndex = i;
+                }
+            }
+
+            if(tempD < minD) {
+                minD = tempD;
+                minIndex = i;
+            }
+        }
+
+        //System.out.println(minIndex);
+
+        int x, y;
+        if(cX%2 == 0) {
+            x = cX+Britto.dxEven[minIndex];
+            y = cY+Britto.dyEven[minIndex];
+        }
+        else {
+            x = cX+Britto.dxOdd[minIndex];
+            y = cY+Britto.dyOdd[minIndex];
+        }
+
+        return new Cell(x, y);
+    }
+
+    public Cell moveByRandom() {
+        Random random = new Random();
+        Cell catPosition = grid.getCatPosition();
+
+        while (true) {
+            int idx = random.nextInt(5);
+            int x, y;
+            if (catPosition.getX() % 2 == 0) {
+                x = catPosition.getX() + Britto.dxEven[idx];
+                y = catPosition.getY() + Britto.dyEven[idx];
+            } else {
+                x = catPosition.getX() + Britto.dxOdd[idx];
+                y = catPosition.getY() + Britto.dyOdd[idx];
+            }
+
+            if (grid.getStausOfBritto(x, y) == false) {
+                return new Cell(x, y);
+            }
+        }
     }
 
     public static int bfs(int sX, int sY, Grid grid) {
